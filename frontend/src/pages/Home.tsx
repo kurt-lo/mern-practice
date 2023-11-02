@@ -3,15 +3,15 @@ import { useEffect, useState } from "react"
 import { Book } from "../types"
 import { Link } from "react-router-dom"
 import { MdAddBox } from "react-icons/md";
-import { BiSolidMessageEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
-import { BsFillDisplayFill } from "react-icons/bs";
 import Spinner from "../components/Spinner";
+import BooksTable from "../components/home/BooksTable";
+import BooksCard from "../components/home/BooksCard";
 
 const Home = () => {
 
   const [books, setBooks] = useState<Book[]>([])
   const [loading, setLoading] = useState(false)
+  const [showType, setShowType] = useState('table')
 
   useEffect(() => {
     setLoading(true)
@@ -27,54 +27,17 @@ const Home = () => {
 
   return (
     <section className="w-full flex flex-col">
+      <div className="bg-black">
+        <button onClick={() => setShowType('table')} className="text-white">Table</button>
+        <button onClick={() => setShowType('card')} className="text-white">Card</button>
+      </div>
       <div className="">
         <h1>Books List</h1>
         <Link to='/books/add'>
           <MdAddBox />
         </Link>
       </div>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Publish Year</th>
-              <th>Operations</th>
-            </tr>
-          </thead>
-          <tbody>
-            {books.map((book, index) => (
-              <tr key={book._id}>
-                <td>{index + 1}</td>
-                <td>{book.title}</td>
-                <td>{book.author}</td>
-                <td>{book.publishYear}</td>
-                <td>
-                  <div>
-                    <Link to={`/books/details/${book._id}`}>
-                      <BsFillDisplayFill />
-                    </Link>
-                  </div>
-                  <div>
-                    <Link to={`/books/update/${book._id}`}>
-                      <BiSolidMessageEdit />
-                    </Link>
-                  </div>
-                  <div>
-                    <Link to={`/books/delete/${book._id}`}>
-                      <AiFillDelete />
-                    </Link>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      {loading ? (<Spinner />) : showType === 'table' ? (<BooksTable books={books} />) : (<BooksCard books={books} />)}
     </section>
   )
 }
