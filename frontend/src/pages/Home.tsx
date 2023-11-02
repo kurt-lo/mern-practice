@@ -26,8 +26,8 @@ const Home = () => {
   }, [])
 
   return (
-    <section className="w-full">
-      <div>
+    <section className="w-full flex flex-col">
+      <div className="">
         <h1>Books List</h1>
         <Link to='/books/add'>
           <MdAddBox />

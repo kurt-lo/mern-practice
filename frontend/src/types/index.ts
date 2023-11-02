@@ -3,4 +3,10 @@ export interface Book {
     title: string;
     author: string;
     publishYear: number
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface BooksProps {
+    books: Book[]
 }
